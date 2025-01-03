@@ -2,6 +2,7 @@ from contest_platform import ContestInfo, ContestPlatform
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List
+import logging
 import shelve
 import sys
 
@@ -36,6 +37,7 @@ class ContestDatabase:
           db[uid].notified_today = True
           notification = f'{contest.fullname} starting in 15 minutes!\n'
           notification += f'Link: {contest.link}'
+          logging.info(f'Notifying (15 mins): {uid}')
           notifications.append(notification)
         
         elif contest.start_time - datetime.now() <= timedelta(hours=1):
@@ -46,6 +48,7 @@ class ContestDatabase:
           db[uid].notified_today = True
           notification = f'{contest.fullname} starting in an hour!\n'
           notification += f'Link: {contest.link}'
+          logging.info(f'Notifying (1 hr): {uid}')
           notifications.append(notification)
 
         elif contest.start_time.date() == datetime.today().date():
@@ -53,6 +56,7 @@ class ContestDatabase:
             continue
 
           db[uid].notified_today = True
+          logging.info(f'Notifying (today): {uid}')
           notifications.append(contest)
 
     return notifications
@@ -62,10 +66,10 @@ class ContestDatabase:
       try:
         for contest in platform.upcoming_contests():
           if contest.uid in db:
-            print(f'Updating {contest.uid}')
+            logging.info(f'Updating {contest.uid}')
             db[contest.uid].contest = contest
           else:
-            print(f'Inserting {contest.uid}')
+            logging.info(f'Inserting {contest.uid}')
             db[contest.uid] = ContestDatabase.Record(contest)
       except:
         pass
@@ -73,7 +77,7 @@ class ContestDatabase:
   def __cleanup(self, db):
     for uid in list(db.keys()):
       if db[uid].contest.start_time <= datetime.now():
-        print(f'Removing {uid}')
+        logging.info(f'Removing {uid}')
         del db[uid]
 
 if __name__ == '__main__':

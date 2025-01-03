@@ -35,4 +35,4 @@ if __name__ == '__main__':
   channel_id = os.getenv('channel_id')
 
   client = C0ntestClient(channel_id=channel_id, intents=discord.Intents.default())
-  client.run(token)
+  client.run(token, root_logger=True)
