@@ -62,8 +62,10 @@ class ContestDatabase:
       try:
         for contest in platform.upcoming_contests():
           if contest.uid in db:
+            print(f'Updating {contest.uid}')
             db[contest.uid].contest = contest
           else:
+            print(f'Inserting {contest.uid}')
             db[contest.uid] = ContestDatabase.Record(contest)
       except:
         pass
@@ -71,6 +73,7 @@ class ContestDatabase:
   def __cleanup(self, db):
     for uid in list(db.keys()):
       if db[uid].contest.start_time <= datetime.now():
+        print(f'Removing {uid}')
         del db[uid]
 
 if __name__ == '__main__':
