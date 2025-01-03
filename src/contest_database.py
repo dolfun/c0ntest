@@ -71,8 +71,8 @@ class ContestDatabase:
           else:
             logging.info(f'Inserting {contest.uid}')
             db[contest.uid] = ContestDatabase.Record(contest)
-      except:
-        pass
+      except Exception as e:
+        logging.error(e)
 
   def __cleanup(self, db):
     for uid in list(db.keys()):
