@@ -1,7 +1,7 @@
 from contest_platform import ContestInfo, ContestPlatform
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Union
 import logging
 import shelve
 import sys
@@ -23,7 +23,7 @@ class ContestDatabase:
       self.__update(db)
       self.__cleanup(db)
 
-  def notifications(self) -> List[ContestInfo]:
+  def notifications(self) -> List[Union[ContestInfo, str]]:
     notifications = []
     with shelve.open(self.filename, writeback=True) as db:
       for uid in db.keys():

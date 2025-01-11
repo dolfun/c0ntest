@@ -23,7 +23,7 @@ class C0ntestClient(discord.Client):
 
   @tasks.loop(minutes=5)
   async def background_task(self):
-    logging.log('Running background task')
+    logging.info('Running background task')
     self.database.update()
 
     channel = self.get_channel(self.channel_id)
