@@ -184,7 +184,7 @@ class LeetCode(ContestPlatform):
     return upcoming_contests
 
 def get_platforms():
-  return [Codeforces(), Codechef(), AtCoder(), LeetCode()]
+  return [Codeforces(), Codechef(), AtCoder()]
 
 if __name__ == '__main__':
   platforms = get_platforms()

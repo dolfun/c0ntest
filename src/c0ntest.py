@@ -28,7 +28,8 @@ class C0ntestClient(discord.Client):
 
     channel = self.get_channel(self.channel_id)
     for notification in self.database.notifications():
-      await channel.send(notification)
+      message = '@everyone\n' + str(notification)
+      await channel.send(message)
 
   @background_task.before_loop
   async def before_background_task(self):
